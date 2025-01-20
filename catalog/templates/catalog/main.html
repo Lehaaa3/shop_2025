@@ -1,0 +1,61 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-2">{{title}}</h1>
+    <p class="lead">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+</div>
+
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2>Товар 1</h2>
+                </div>
+                <div class="card-body">
+                    <p>Цена: <b>100$</b></p>
+                    <p>Номер версии: <b>1</b></p>
+                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2>Товар 2</h2>
+                </div>
+                <div class="card-body">
+                    <p>Цена: <b>200$</b></p>
+                    <p>Номер версии: <b>2</b></p>
+                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2>Товар 3</h2>
+                </div>
+                <div class="card-body">
+                    <p>Цена: <b>300$</b></p>
+                    <p>Номер версии: <b>3</b></p>
+                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2>Товар 4</h2>
+                </div>
+                <div class="card-body">
+                    <p>Цена: <b>400$</b></p>
+                    <p>Номер версии: <b>4</b></p>
+                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
