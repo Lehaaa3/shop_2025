@@ -8,54 +8,20 @@
 
 <div class="container">
     <div class="row text-center">
+        {% for product in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h2>Товар 1</h2>
+                    <h2>{{ product.name }}</h2>
                 </div>
                 <div class="card-body">
-                    <p>Цена: <b>100$</b></p>
-                    <p>Номер версии: <b>1</b></p>
+                    <p>Цена: <b>{{ product.price }}</b></p>
+                    <p>Описание: <b>{{ product.description }}</b></p>
                     <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
                 </div>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h2>Товар 2</h2>
-                </div>
-                <div class="card-body">
-                    <p>Цена: <b>200$</b></p>
-                    <p>Номер версии: <b>2</b></p>
-                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h2>Товар 3</h2>
-                </div>
-                <div class="card-body">
-                    <p>Цена: <b>300$</b></p>
-                    <p>Номер версии: <b>3</b></p>
-                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h2>Товар 4</h2>
-                </div>
-                <div class="card-body">
-                    <p>Цена: <b>400$</b></p>
-                    <p>Номер версии: <b>4</b></p>
-                    <a href="#" class="btn mt-auto btn-outline-danger">Купить</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     {% endblock %}
