@@ -1,0 +1,41 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "Яблоко",
+        "description": "Зеленое",
+        "image": "products/яблоко.png",
+        "category": 1,
+        "price": "60",
+        "created_at": "2025-01-27T16:20:09.566Z",
+        "updated_at": "2025-01-27T16:20:09.566Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Картошка",
+        "description": "Крупная",
+        "image": "",
+        "category": 2,
+        "price": "40",
+        "created_at": "2025-01-27T16:20:39.133Z",
+        "updated_at": "2025-01-27T16:20:39.133Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Пахлава",
+        "description": "Сладкая",
+        "image": "",
+        "category": 3,
+        "price": "80",
+        "created_at": "2025-01-27T16:21:07.484Z",
+        "updated_at": "2025-01-27T16:21:07.484Z"
+    }
+}
+]
