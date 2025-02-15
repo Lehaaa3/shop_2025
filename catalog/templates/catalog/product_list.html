@@ -14,16 +14,16 @@
         </div>
     </div>
     <div class="row text-center">
-        {% for product in page_obj %}
+        {% for object in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h2>{{ product.name }}</h2>
+                    <h2>{{ object.name }}</h2>
                 </div>
                 <div class="card-body">
-                    <p>Цена: <b>{{ product.price }}</b></p>
-                    <p>Описание: <b>{{ product.description|truncatechars:100 }}</b></p>
-                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn mt-auto btn-outline-danger">Купить</a>
+                    <p>Цена: <b>{{ object.price }}</b></p>
+                    <p>Описание: <b>{{ object.description|truncatechars:100 }}</b></p>
+                    <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger">Купить</a>
                 </div>
             </div>
         </div>

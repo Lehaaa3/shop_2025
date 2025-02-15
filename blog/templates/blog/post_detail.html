@@ -1,0 +1,29 @@
+{% extends "catalog/base.html" %}
+{% block content %}
+{% load my_tags %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-2">Продуктовый Блог</h1>
+    <p class="lead">Блог ведется лучшими фруктами, овощами и шоколадками страны</p>
+</div>
+
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-6">
+            <img src="{% mediapath post.image %}" width="300" height="300" alt="изображение">
+        </div>
+        <div class="col-6">
+            <h1 class="display-4">{{ object.title }}</h1>
+            <h2 class="display-4">Просмотров - {{ object.number_of_views }}</h2>
+        </div>
+        <div class="col-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ object.content }}</h1>
+                </div>
+            </div>
+        </div>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'blog:post_list' %}">Вернуться в Блог</a>
+    </div>
+    {% endblock %}
