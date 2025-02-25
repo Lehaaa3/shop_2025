@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from blog.forms import PostForm
 from blog.models import Post
@@ -11,8 +12,7 @@ class PostListView(ListView):
     model = Post
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(is_published=True)
+        queryset = super().get_queryset().filter(is_published=True)
         return queryset
 
     def get_context_data(self, **kwargs):
