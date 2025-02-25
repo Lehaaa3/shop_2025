@@ -1,8 +1,8 @@
 {% extends "catalog/base.html" %}
 {% block content %}
 {% load my_tags %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-2">{{title}}</h1>
+<div class="pricing-header px-3 py-3 pt-md-5 mt-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-2 text-on-image">{{title}}</h1>
     <p class="lead">Вы находитесь на сайте, предназначенном для продажи товаров</p>
 </div>
 
@@ -17,7 +17,7 @@
     <div class="row text-center">
         {% for object in object_list %}
         <div class="col-3">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow custom-card">
                 <div class="card-header">
                     <h2>{{ object.name }}</h2>
                 </div>
@@ -60,31 +60,31 @@
     </div>
     <ul class="pagination justify-content-end pagination-sm">
         {% if page_obj.has_previous %}
-        <li class="page-item"><a class="page-link "
+        <li class="page-item"><a class="page-link custom-card"
                                  href="?page=1"><<</a>
         </li>
-        <li class="page-item"><a class="page-link "
-                                 href="?page={{ page_obj.previous_page_number }}"><</a>
+        <li class="page-item"><a class="page-link custom-card"
+                                 href="?page={{ page_obj.previous_page_number }}" ><</a>
         </li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="#" tabindex="-1"><<</a></li>
-        <li class="page-item"><a class="page-link" href="#" tabindex="-1"><</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#" tabindex="-1"><<</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#" tabindex="-1"><</a></li>
         {% endif %}
         {% for p in page_obj.paginator.page_range %}
         {% if p == page_obj.number %}
-        <li class="page-item active"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+        <li class="page-item active"><a class="page-link custom-card" href="?page={{p}}">{{p}}</a></li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{p}}">{{p}}</a></li>
         {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">></a>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{page_obj.next_page_number}}">></a>
         </li>
-        <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">>></a>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{page_obj.paginator.num_pages}}">>></a>
         </li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="#">></a></li>
-        <li class="page-item"><a class="page-link" href="#">>></a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#">></a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#">>></a></li>
         {% endif %}
     </ul>
 </div>
