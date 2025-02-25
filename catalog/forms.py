@@ -34,22 +34,25 @@ class ProductForm(ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        for word in self.restricted_list:
-            if word in name.lower():
-                raise ValidationError(f'Название продукта не может содержать слово "{word}"')
+        if name:
+            for word in self.restricted_list:
+                if word in name.lower():
+                    raise ValidationError(f'Название продукта не может содержать слово "{word}"')
         return name
 
     def clean_description(self):
         description = self.cleaned_data.get('description')
-        for word in self.restricted_list:
-            if word in description.lower():
-                raise ValidationError(f'Описание продукта не может содержать слово "{word}"')
+        if description:
+            for word in self.restricted_list:
+                if word in description.lower():
+                    raise ValidationError(f'Описание продукта не может содержать слово "{word}"')
         return description
 
     def clean_price(self):
         price = self.cleaned_data.get('price')
-        if price < 0:
-            raise ValidationError('Цена не может быть отрицательной')
+        if price:
+            if price < 0:
+                raise ValidationError('Цена не может быть отрицательной')
         return price
 
     def clean_image(self):
