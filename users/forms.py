@@ -1,6 +1,4 @@
 from django import forms
-# from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
 from users.models import User
 
 
@@ -71,7 +69,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone',)
+        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'country', 'avatar',)
         help_texts = {
             'username': None,
         }

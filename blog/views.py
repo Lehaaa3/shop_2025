@@ -8,7 +8,7 @@ from blog.models import Post
 from blog.services import send_mail_to_me
 
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class PostListView(ListView):
         return context_data
 
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
 
     def get_object(self, queryset=None):
@@ -33,7 +33,7 @@ class PostDetailView(DetailView):
         return self.object
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
 
@@ -41,14 +41,14 @@ class PostCreateView(CreateView):
         return reverse('blog:post_list')
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
 
     def get_success_url(self):
         return reverse('blog:post_list')
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
 

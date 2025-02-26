@@ -24,34 +24,9 @@
                 <div class="card-body">
                     <p>Цена: <b>{{ object.price }}</b></p>
                     <p>Описание: <b>{{ object.description | truncatechars:100 }}</b></p>
-                    {% if user.pk == object.owner.pk %}
-                    <div class="row">
-                        <div class="col-12 d-md-flex">
-                            <a href="{% url 'catalog:product_detail' object.pk %}"
-                               class="form-control btn mt-1 btn-outline-success">Детали</a>
-                            <a href="{% url 'catalog:update_product' object.pk %}"
-                               class="form-control btn ml-2 mt-1 btn-outline-success">Изменить</a>
-                        </div>
-                    </div>
-                    {% else %}
-                    <a href="{% url 'catalog:product_detail' object.pk %}"
-                       class="form-control btn mt-1 btn-outline-success">Купить</a>
-                    {% endif %}
-                    <form method="post" action="{% url 'catalog:product_list' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ object.id }}">
-                        {% if user.pk == object.owner.pk or perms.catalog.delete_product %}
-                        <div class="row">
-                            <div class="col-12 d-md-flex">
-                                <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть
-                                </button>
-                                <button name="del_prod" class="ml-2 form-control btn mt-3 btn-outline-danger">Удалить
-                                </button>
-                            </div>
-                        </div>
-                        {% else %}
-                        <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть</button>
-                        {% endif %}
+                    <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger">Детали</a>
+                    <a href="{% url 'catalog:update_product' object.pk %}" class="btn mt-auto btn-outline-danger">Изменить</a>
+                    <a href="{% url 'catalog:delete_product' object.pk %}" class="btn mt-auto btn-outline-danger">Удалить</a>
                     </form>
                 </div>
             </div>

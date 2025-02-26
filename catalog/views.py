@@ -1,15 +1,11 @@
-from smtplib import SMTPException
-
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Permission
-from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView, DeleteView
 
-from blog.services import send_mail_to_me, send_mail_from_contact
+from catalog.services import send_mail_from_contact
 from catalog.forms import ProductForm
 from catalog.models import Product, Contacts
 
@@ -48,7 +44,7 @@ class ProductListView(ListView):
             return redirect('catalog:product_list')
 
 
-class ContactView(TemplateView):
+class ContactView(LoginRequiredMixin, TemplateView):
     template_name = 'catalog/contact.html'
 
     def get_context_data(self, **kwargs):
@@ -67,7 +63,7 @@ class ContactView(TemplateView):
             return redirect(reverse('catalog:contact'))
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
@@ -89,7 +85,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return reverse('catalog:product_list')
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
@@ -102,6 +98,13 @@ class ProductUpdateView(UpdateView):
             return HttpResponseForbidden("У вас нет прав для редактирования продукта.")
         self.request.user.user_permissions.remove(can_change_product)
         return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('catalog:product_list')
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
 
     def get_success_url(self):
         return reverse('catalog:product_list')

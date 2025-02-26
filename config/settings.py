@@ -146,6 +146,6 @@ EMAIL_HOST_USER = 'leha.grabovskiy.00@bk.ru'
 EMAIL_HOST_PASSWORD = os.getenv('MAIL')
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_URL = '/users/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/users/'
+LOGIN_URL = '/users/'
