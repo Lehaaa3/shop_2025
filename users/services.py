@@ -7,7 +7,7 @@ def greeting_email(username, user_email):
     try:
         send_mail(
             subject='LehStore',
-            message=f"Поздравляю, {username}, вы успешно зарегестрировались. "
+            message=f"Поздравляю, {username}, вы успешно зарегестрировались! "
                     f"Теперь вы можете пользоваться услугами нашего магазина!",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user_email],
