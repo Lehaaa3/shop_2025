@@ -75,3 +75,4 @@ class UserProfileForm(forms.ModelForm):
         help_texts = {
             'username': None,
         }
+
