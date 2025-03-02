@@ -2,58 +2,43 @@
 {% block content %}
 {% load my_tags %}
 <div class="pricing-header px-3 py-3 pt-md-5 mt-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-2 text-on-image">{{title}}</h1>
-    <p class="lead">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+    <h1 class="display-2 text-on-image">{{category}}</h1>
 </div>
 
 
 <div class="container">
-    <div class="row mt-1 mb-4">
-        <div class="col-12 d-flex justify-content-end">
-            <div class="dropdown me-2">
-                <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    Фильтр по категории
-                </a>
-
-                <ul class="dropdown-menu">
-                    {% for category in categories %}
-                    <li><a class="dropdown-item" href="{% url 'catalog:product_category' %}?category_id={{ category.id }}">{{category.name}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <a class="btn btn-outline-primary ml-2" href="{% url 'catalog:create_product' %}">Добавить
-                новый продукт</a>
-        </div>
-    </div>
     <div class="row text-center">
-        {% for object in object_list %}
+        {% if not products %}
+        <div class="col-12 mt-5 mb-5">
+            <h1>Продуктов в данной категории не найдено</h1>
+        </div>
+        {% endif %}
+        {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow custom-card">
                 <div class="card-header">
-                    <h2>{{ object.name }}</h2>
+                    <h2>{{ product.name }}</h2>
                 </div>
                 <div class="card-body">
-                    <p>Цена: <b>{{ object.price }}</b></p>
-                    <p>Описание: <b>{{ object.description | truncatechars:100 }}</b></p>
-                    {% if user.pk == object.owner.pk %}
+                    <p>Цена: <b>{{ product.price }}</b></p>
+                    <p>Описание: <b>{{ product.description | truncatechars:100 }}</b></p>
+                    {% if user.pk == product.owner.pk %}
                     <div class="row">
                         <div class="col-12 d-md-flex">
-                            <a href="{% url 'catalog:product_detail' object.pk %}"
+                            <a href="{% url 'catalog:product_detail' product.pk %}"
                                class="form-control btn mt-1 btn-outline-success">Детали</a>
-                            <a href="{% url 'catalog:update_product' object.pk %}"
+                            <a href="{% url 'catalog:update_product' product.pk %}"
                                class="form-control btn ml-2 mt-1 btn-outline-success">Изменить</a>
                         </div>
                     </div>
                     {% else %}
-                    <a href="{% url 'catalog:product_detail' object.pk %}"
+                    <a href="{% url 'catalog:product_detail' product.pk %}"
                        class="form-control btn mt-1 btn-outline-success">Детали</a>
                     {% endif %}
                     <form method="post" action="{% url 'catalog:product_list' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ object.id }}">
-                        {% if user.pk == object.owner.pk or perms.catalog.delete_product %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        {% if user.pk == product.owner.pk or perms.catalog.delete_product %}
                         <div class="row">
                             <div class="col-12 d-md-flex">
                                 <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть

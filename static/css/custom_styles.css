@@ -9,10 +9,15 @@ body {
     display: inline-block;
 }
 
+
 .text-on-image {
     text-shadow: 2px 2px 4px #000000; / Тень черного цвета /
 }
 
 .custom-card {
+    outline: none !important;
+    box-shadow: none !important;
     background-color: #ADD8E6; / Светло-голубой цвет /
+    }
+
 
