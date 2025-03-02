@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
 from users.models import User
 from users.forms import UserRegisterForm, UserProfileForm
+from users.services import greeting_email
 
 
 class RegisterView(CreateView):
@@ -10,13 +10,10 @@ class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
 
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-        return form_class(**self.get_form_kwargs())
-
     def form_valid(self, form):
-        form.save()
+        username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        greeting_email(username, email)
         return super().form_valid(form)
 
     def get_success_url(self):
