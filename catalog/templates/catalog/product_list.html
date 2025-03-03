@@ -24,6 +24,8 @@
                     <p>Цена: <b>{{ object.price }}</b></p>
                     <p>Описание: <b>{{ object.description|truncatechars:100 }}</b></p>
                     <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger">Купить</a>
+                    <a href="{% url 'catalog:update_product' object.pk %}" class="btn mt-auto btn-outline-danger">Изменить</a>
+                    <a href="{% url 'catalog:delete_product' object.pk %}" class="btn mt-auto btn-outline-danger">Удалить</a>
                 </div>
             </div>
         </div>

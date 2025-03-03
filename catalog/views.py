@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView, TemplateView
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
 from catalog.models import Product, Contacts
@@ -44,9 +44,24 @@ class ProductDetailView(DetailView):
         return context_data
 
 
-class ProductCreateView(CreateView, ProductForm):
+class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
 
     def get_success_url(self):
         return reverse('catalog:product_list')
