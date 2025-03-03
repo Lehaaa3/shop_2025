@@ -1,7 +1,5 @@
 from django.db import models
 
-from users.models import User
-
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -19,14 +17,6 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    PUBLISHED = True
-    UNPUBLISHED = False
-
-    IS_PUBLISHED_CHOICES = [
-        (PUBLISHED, "Опубликовано"),
-        (UNPUBLISHED, "Не опубликовано"),
-    ]
-
     name = models.CharField(max_length=100, verbose_name='название')
     description = models.TextField(verbose_name='описание')
     image = models.ImageField(upload_to='products/', verbose_name='аватар', **NULLABLE)
@@ -34,10 +24,6 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=3, decimal_places=0, verbose_name='цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='дата последнего изменения')
-    is_published = models.BooleanField(default=UNPUBLISHED, choices=IS_PUBLISHED_CHOICES,
-                                       verbose_name='статус публикации')
-
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='владелец')
 
     def __str__(self):
         return f'{self.name} - {self.price}'
@@ -46,9 +32,6 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ('price',)
-        permissions = [
-            ("can_unpublish_product", "Can unpublish product"),
-        ]
 
 
 class Contacts(models.Model):

@@ -24,8 +24,8 @@
                 <div class="card-body">
                     <p>Цена: <b>{{ object.price }}</b></p>
                     <p>Описание: <b>{{ object.description | truncatechars:100 }}</b></p>
-                    <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger">Детали</a>
-                    <a href="{% url 'catalog:update_product' object.pk %}" class="btn mt-auto btn-outline-danger">Изменить</a>
+                    <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger mb-2">Детали</a>
+                    <a href="{% url 'catalog:update_product' object.pk %}" class="btn mt-auto btn-outline-danger mb-2">Изменить</a>
                     <a href="{% url 'catalog:delete_product' object.pk %}" class="btn mt-auto btn-outline-danger">Удалить</a>
                     </form>
                 </div>

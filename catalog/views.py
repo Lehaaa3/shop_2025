@@ -1,6 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Permission
-from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView, DeleteView
@@ -14,34 +12,11 @@ class ProductListView(ListView):
     model = Product
     paginate_by = 4
 
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(is_published=True)
-        return queryset
-
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['title'] = 'Главная'
 
         return context_data
-
-    def post(self, request):
-        product_id = request.POST.get('product_id')
-        product = Product.objects.get(pk=product_id)
-        if request.method == 'POST':
-            if 'unpublish' in request.POST:
-                if not request.user.has_perm('catalog.can_unpublish_product'):
-                    return HttpResponseForbidden("У вас нет прав для отмены публикации.")
-                product.is_published = Product.UNPUBLISHED
-                product.save(update_fields=["is_published"])
-            if 'del_prod' in request.POST:
-                delete_product = Permission.objects.get(codename='delete_product')
-                if product.owner.pk == self.request.user.pk:
-                    self.request.user.user_permissions.add(delete_product)
-                if not request.user.has_perm('catalog.delete_product'):
-                    return HttpResponseForbidden("У вас нет прав для удаления продукта.")
-                product.delete()
-                self.request.user.user_permissions.remove(delete_product)
-            return redirect('catalog:product_list')
 
 
 class ContactView(LoginRequiredMixin, TemplateView):
@@ -88,16 +63,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-
-    def dispatch(self, request, *args, **kwargs):
-        can_change_product = Permission.objects.get(codename='change_product')
-        product = self.get_object()
-        if product.owner.pk == self.request.user.pk:
-            self.request.user.user_permissions.add(can_change_product)
-        if not request.user.has_perm('catalog.change_product'):
-            return HttpResponseForbidden("У вас нет прав для редактирования продукта.")
-        self.request.user.user_permissions.remove(can_change_product)
-        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('catalog:product_list')
