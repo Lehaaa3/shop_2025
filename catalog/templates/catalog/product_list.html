@@ -1,7 +1,8 @@
 {% extends "catalog/base.html" %}
 {% block content %}
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-2">{{title}}</h1>
+{% load my_tags %}
+<div class="pricing-header px-3 py-3 pt-md-5 mt-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-2 text-on-image">{{title}}</h1>
     <p class="lead">Вы находитесь на сайте, предназначенном для продажи товаров</p>
 </div>
 
@@ -16,14 +17,42 @@
     <div class="row text-center">
         {% for object in object_list %}
         <div class="col-3">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow custom-card">
                 <div class="card-header">
                     <h2>{{ object.name }}</h2>
                 </div>
                 <div class="card-body">
                     <p>Цена: <b>{{ object.price }}</b></p>
-                    <p>Описание: <b>{{ object.description|truncatechars:100 }}</b></p>
-                    <a href="{% url 'catalog:product_detail' object.pk %}" class="btn mt-auto btn-outline-danger">Купить</a>
+                    <p>Описание: <b>{{ object.description | truncatechars:100 }}</b></p>
+                    {% if user.pk == object.owner.pk %}
+                    <div class="row">
+                        <div class="col-12 d-md-flex">
+                            <a href="{% url 'catalog:product_detail' object.pk %}"
+                               class="form-control btn mt-1 btn-outline-success">Детали</a>
+                            <a href="{% url 'catalog:update_product' object.pk %}"
+                               class="form-control btn ml-2 mt-1 btn-outline-success">Изменить</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'catalog:product_detail' object.pk %}"
+                       class="form-control btn mt-1 btn-outline-success">Купить</a>
+                    {% endif %}
+                    <form method="post" action="{% url 'catalog:product_list' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ object.id }}">
+                        {% if user.pk == object.owner.pk or perms.catalog.delete_product %}
+                        <div class="row">
+                            <div class="col-12 d-md-flex">
+                                <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть
+                                </button>
+                                <button name="del_prod" class="ml-2 form-control btn mt-3 btn-outline-danger">Удалить
+                                </button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть</button>
+                        {% endif %}
+                    </form>
                 </div>
             </div>
         </div>
@@ -31,31 +60,31 @@
     </div>
     <ul class="pagination justify-content-end pagination-sm">
         {% if page_obj.has_previous %}
-        <li class="page-item"><a class="page-link "
+        <li class="page-item"><a class="page-link custom-card"
                                  href="?page=1"><<</a>
         </li>
-        <li class="page-item"><a class="page-link "
-                                 href="?page={{ page_obj.previous_page_number }}"><</a>
+        <li class="page-item"><a class="page-link custom-card"
+                                 href="?page={{ page_obj.previous_page_number }}" ><</a>
         </li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="#" tabindex="-1"><<</a></li>
-        <li class="page-item"><a class="page-link" href="#" tabindex="-1"><</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#" tabindex="-1"><<</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#" tabindex="-1"><</a></li>
         {% endif %}
         {% for p in page_obj.paginator.page_range %}
         {% if p == page_obj.number %}
-        <li class="page-item active"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+        <li class="page-item active"><a class="page-link custom-card" href="?page={{p}}">{{p}}</a></li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{p}}">{{p}}</a></li>
         {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">></a>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{page_obj.next_page_number}}">></a>
         </li>
-        <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">>></a>
+        <li class="page-item"><a class="page-link custom-card" href="?page={{page_obj.paginator.num_pages}}">>></a>
         </li>
         {% else %}
-        <li class="page-item"><a class="page-link" href="#">></a></li>
-        <li class="page-item"><a class="page-link" href="#">>></a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#">></a></li>
+        <li class="page-item"><a class="page-link custom-card" href="#">>></a></li>
         {% endif %}
     </ul>
 </div>
