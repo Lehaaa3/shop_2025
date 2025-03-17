@@ -1,13 +1,13 @@
 from smtplib import SMTPException
 
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Permission
 from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView, DeleteView
 
 from blog.services import send_mail_to_me, send_mail_from_contact
 from catalog.forms import ProductForm
@@ -28,24 +28,26 @@ class ProductListView(ListView):
 
         return context_data
 
-    def post(self, request):
-        product_id = request.POST.get('product_id')
-        product = Product.objects.get(pk=product_id)
+
+class ProductHideView(PermissionRequiredMixin, DetailView):
+    permission_required = 'catalog.can_unpublish_product'
+    template_name = 'catalog/product_hide.html'
+    model = Product
+
+    def post(self, request, pk):
+        product = self.get_object()
         if request.method == 'POST':
             if 'unpublish' in request.POST:
-                if not request.user.has_perm('catalog.can_unpublish_product'):
-                    return HttpResponseForbidden("У вас нет прав для отмены публикации.")
                 product.is_published = Product.UNPUBLISHED
                 product.save(update_fields=["is_published"])
-            if 'del_prod' in request.POST:
-                delete_product = Permission.objects.get(codename='delete_product')
-                if product.owner.pk == self.request.user.pk:
-                    self.request.user.user_permissions.add(delete_product)
-                if not request.user.has_perm('catalog.delete_product'):
-                    return HttpResponseForbidden("У вас нет прав для удаления продукта.")
-                product.delete()
-                self.request.user.user_permissions.remove(delete_product)
             return redirect('catalog:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+
+    def get_success_url(self):
+        return reverse('catalog:product_list')
 
 
 class ContactView(TemplateView):

@@ -35,24 +35,21 @@
                     </div>
                     {% else %}
                     <a href="{% url 'catalog:product_detail' object.pk %}"
-                       class="form-control btn mt-1 btn-outline-success">Купить</a>
+                       class="form-control btn mt-1 btn-outline-success">Детали</a>
                     {% endif %}
-                    <form method="post" action="{% url 'catalog:product_list' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ object.id }}">
-                        {% if user.pk == object.owner.pk or perms.catalog.delete_product %}
-                        <div class="row">
-                            <div class="col-12 d-md-flex">
-                                <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть
-                                </button>
-                                <button name="del_prod" class="ml-2 form-control btn mt-3 btn-outline-danger">Удалить
-                                </button>
-                            </div>
+                    {% if user.pk == object.owner.pk or perms.catalog.delete_product %}
+                    <div class="row">
+                        <div class="col-12 d-md-flex">
+                            <a href="{% url 'catalog:product_hide' object.pk %}"
+                               class="form-control btn mt-3 ml btn-outline-danger">Скрыть</a>
+                            <a href="{% url 'catalog:product_delete' object.pk %}"
+                               class="form-control btn mt-3 ml-2 btn-outline-danger">Удалить</a>
                         </div>
-                        {% else %}
-                        <button name="unpublish" class="form-control btn mt-3 btn-outline-danger">Скрыть</button>
-                        {% endif %}
-                    </form>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'catalog:product_hide' object.pk %}"
+                       class="form-control btn mt-3 ml-2 btn-outline-danger">Скрыть</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -64,7 +61,7 @@
                                  href="?page=1"><<</a>
         </li>
         <li class="page-item"><a class="page-link custom-card"
-                                 href="?page={{ page_obj.previous_page_number }}" ><</a>
+                                 href="?page={{ page_obj.previous_page_number }}"><</a>
         </li>
         {% else %}
         <li class="page-item"><a class="page-link custom-card" href="#" tabindex="-1"><<</a></li>
