@@ -1,17 +1,22 @@
+from smtplib import SMTPException
+
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Permission
+from django.core.mail import send_mail
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, ListView, DetailView, TemplateView, UpdateView
 
+from blog.services import send_mail_to_me, send_mail_from_contact
 from catalog.forms import ProductForm
 from catalog.models import Product, Contacts
 
 
 class ProductListView(ListView):
     model = Product
-    paginate_by = 2
+    paginate_by = 4
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(is_published=True)
@@ -57,6 +62,7 @@ class ContactView(TemplateView):
             name = request.POST.get('name')
             phone = request.POST.get('phone')
             message = request.POST.get('message')
+            send_mail_from_contact(name, phone, message)
             print(f"{name}, {phone}, {message}")
             return redirect(reverse('catalog:contact'))
 
